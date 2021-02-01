@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/customstyles.css" />
+    <script src="../scripts/player.js" async></script>
+    <script src="../scripts/add-media-to-playlist.js" async></script>
+</head>
+<body>
+
+<nav class="navbar navbar-expand navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/home">Media Organiser</a>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-link" aria-current="page" href="/home">Home</a>
+                <a class="nav-link" aria-current="page" href="/upload">Upload media</a>
+                <a class="nav-link" href="/playlists">Playlists</a>
+                <a class="nav-link" href="/categories">Categories</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div id="media-player" class="d-flex flex-column align-items-center mt-3">
+</div>
+
+<div class="container mt-4">
+    <div class="row">
+
+        <div class="col-sm-12">
+            <table class="table table-hover" id="playlist-files-table" th:data="${playlist.getId()}">
+                <h2 th:text="${playlist.getplaylistname()}"></h2>
+                <thead>
+                <tr>
+                    <th scope="col">File name</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Comment</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="file : ${playlistFiles}">
+                    <td scope="row" th:class="${file.getPath()}" th:data="${file.getImage()}"><span class="file-info"  th:text="${file.getId()}" style="display: none"></span><i class="bi bi-play play-button"></i><span th:text="${file.getName()}"></span></td>
+                    <td class="category-column" th:text="${file.formatCategories()}"></td>
+                    <td th:text="${file.getComment()}"></td>
+                    <td><a th:href="@{/delete-playlist-file/{fileId}/{playlistId}(fileId = ${file.getId()}, playlistId = ${playlist.getId()})}"><span style="padding-right: 15px;"><i class="bi bi-trash-fill" style="color: black;"></i></span></a></td>
+                </tr>
+                </tbody>
+            </table>
+            <button class="btn btn-light" id="save-changes" style="display: none">Save changes</button>
+        </div>
+
+        <div class="reveal-add-media">
+            <a href="#" id="reveal-link" class="mt-3">Add media files <i style="display: inline-block" class="bi bi-caret-right-fill reveal-arrow"></i></a>
+            <div class="media-library" style="display: none">
+                <div class="container mt-4">
+                    <div class="row">
+
+                        <div class="col-sm-12 col-md-6">
+                            <table class="table table-hover" id="media-library-table">
+                                <h2>Media library</h2>
+                                <thead>
+                                <tr>
+                                    <th scope="col">File name</th>
+                                    <th scope="col">Category</th>
+                                    <th scope="col">Comment</th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="mediaFile : ${mediaFileList}" class="table-rows">
+                                    <td th:class="${mediaFile.getPath()}" th:data="${mediaFile.getImage()}" scope="row"><span class="file-info" th:text="${mediaFile.getId()}" style="display: none"></span><i class="bi bi-play play-button"></i><span th:text="${mediaFile.getName()}"></span></td>
+                                    <td class="category-column" th:text="${mediaFile.formatCategories()}"></td>
+                                    <td th:text="${mediaFile.getComment()}"></td>
+                                    <td><i class="bi bi-plus add-new-file-btn"></i></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+</body>
