@@ -45,7 +45,7 @@
                 <tr th:each="playlist : ${playlists}">
                     <td scope="row"><a th:href="@{'view-playlist/' + ${playlist.getId()}}"><span th:text="${playlist.getplaylistname()}"></span></a></td>
                     <td>
-                        <span th:each="file : ${playlist.getPlaylistFiles()}" th:class="${file.getPath()}" th:data="${file.getImage()}">
+                        <span th:each="file : ${playlist.getPlaylistFiles()}" th:class="${file.getPath()}" th:data="${file.getImage()?.getImage_path()}">
                             <a class="play-button" href="#"><span th:text="${file.getName()}"></span></a><span th:text="${' '}"></span>
                         </span>
                     </td>

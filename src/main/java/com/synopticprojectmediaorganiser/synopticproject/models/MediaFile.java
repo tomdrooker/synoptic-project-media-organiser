@@ -15,13 +15,15 @@ public class MediaFile {
     private String path;
     private String type;
     private String comment;
-    private String image;
 
     @ManyToMany(mappedBy = "playlistFiles")
     private List<Playlist> playlists;
 
     @OneToMany(mappedBy="mediaFile")
     private List<Category> categories;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Image image;
 
     public Long getId() {
         return id;
@@ -55,11 +57,11 @@ public class MediaFile {
         this.comment = comment;
     }
 
-    public String getImage() {
+    public Image getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(Image image) {
         this.image = image;
     }
 

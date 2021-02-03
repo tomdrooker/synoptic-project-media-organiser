@@ -6,8 +6,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="../css/customstyles.css" />
-    <script src="../scripts/player.js" async></script>
-    <script src="../scripts/add-media-to-playlist.js" async></script>
+    <script src="../static/scripts/player.js" async></script>
+    <script src="../static/scripts/add-media-to-playlist.js" async></script>
 </head>
 <body>
 
@@ -34,6 +34,7 @@
         <div class="col-sm-12">
             <table class="table table-hover" id="playlist-files-table" th:data="${playlist.getId()}">
                 <h2 th:text="${playlist.getplaylistname()}"></h2>
+                <a th:href="@{'rename-playlist/' + ${playlist.getId()}}" style="color: black">Rename</a>
                 <thead>
                 <tr>
                     <th scope="col">File name</th>
@@ -45,7 +46,7 @@
                 </thead>
                 <tbody>
                 <tr th:each="file : ${playlistFiles}">
-                    <td scope="row" th:class="${file.getPath()}" th:data="${file.getImage()}"><span class="file-info"  th:text="${file.getId()}" style="display: none"></span><i class="bi bi-play play-button"></i><span th:text="${file.getName()}"></span></td>
+                    <td scope="row" th:class="${file.getPath()}" th:data="${file.getImage()?.getImage_path()}"><span class="file-info"  th:text="${file.getId()}" style="display: none"></span><i class="bi bi-play play-button"></i><span th:text="${file.getName()}"></span></td>
                     <td class="category-column" th:text="${file.formatCategories()}"></td>
                     <td th:text="${file.getComment()}"></td>
                     <td><a th:href="@{/delete-playlist-file/{fileId}/{playlistId}(fileId = ${file.getId()}, playlistId = ${playlist.getId()})}"><span style="padding-right: 15px;"><i class="bi bi-trash-fill" style="color: black;"></i></span></a></td>
@@ -63,7 +64,7 @@
 
                         <div class="col-sm-12 col-md-6">
                             <table class="table table-hover" id="media-library-table">
-                                <h2>Media library</h2>
+                                <h2>Media library</h2><a th:href="@{'rename-playlist/' + ${playlist.getId()}}" style="color: black">Rename</a>
                                 <thead>
                                 <tr>
                                     <th scope="col">File name</th>
@@ -75,7 +76,7 @@
                                 </thead>
                                 <tbody>
                                 <tr th:each="mediaFile : ${mediaFileList}" class="table-rows">
-                                    <td th:class="${mediaFile.getPath()}" th:data="${mediaFile.getImage()}" scope="row"><span class="file-info" th:text="${mediaFile.getId()}" style="display: none"></span><i class="bi bi-play play-button"></i><span th:text="${mediaFile.getName()}"></span></td>
+                                    <td th:class="${mediaFile.getPath()}" th:data="${mediaFile.getImage()?.getImage_path()}" scope="row"><span class="file-info" th:text="${mediaFile.getId()}" style="display: none"></span><i class="bi bi-play play-button"></i><span th:text="${mediaFile.getName()}"></span></td>
                                     <td class="category-column" th:text="${mediaFile.formatCategories()}"></td>
                                     <td th:text="${mediaFile.getComment()}"></td>
                                     <td><i class="bi bi-plus add-new-file-btn"></i></td>

@@ -1,0 +1,38 @@
+#playlist-name {
+    border: 0;
+    font-size:2rem;
+    font-weight: 500;
+}
+
+.form-control {
+    height: 2.85rem;
+    left: 0;
+}
+
+.add-btn {
+    cursor: pointer;
+}
+
+.add-new-file-btn {
+    cursor: pointer;
+}
+
+.remove-btn {
+    cursor: pointer;
+}
+
+.play-button {
+    cursor: pointer;
+}
+
+.add-category-btn {
+    cursor: pointer;
+}
+
+.category-name {
+    cursor: pointer;
+}
+
+.reveal-arrow {
+    display: inline-block
+}

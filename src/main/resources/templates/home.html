@@ -58,7 +58,7 @@
                 </thead>
                 <tbody>
                 <tr th:each="mediaFile : ${mediaFileList}" class="table-rows">
-                    <td th:class="${mediaFile.getPath()}" th:data="${mediaFile.getImage()}" scope="row"><span class="file-info" th:text="${mediaFile.getId()}" style="display: none"></span><i class="bi bi-play play-button"></i><span th:text="${mediaFile.getName()}"></span></td>
+                    <td th:class="${mediaFile.getPath()}" th:data="${mediaFile.getImage()?.getImage_path()}" scope="row"><span class="file-info" th:text="${mediaFile.getId()}" style="display: none"></span><i class="bi bi-play play-button"></i><span th:text="${mediaFile.getName()}"></span></td>
                     <td class="category-column" th:text="${mediaFile.formatCategories()}"></td>
                     <td th:text="${mediaFile.getComment()}"></td>
                     <td><a th:href="@{'delete-file/' + ${mediaFile.getId()}}"><span style="padding-right: 15px;"><i class="bi bi-trash-fill" style="color: black;"></i></span></a><i class="bi bi-plus add-btn"></i><a th:href="@{'change-details/' + ${mediaFile.getId()}}" style="color: black; margin-left: 5px">Edit</a></li></td>

@@ -30,6 +30,16 @@
         <div class="d-flex justify-content-center">
 
             <form method="POST" enctype="multipart/form-data" th:action="@{/upload-file}">
+
+                <div th:if="${error}">
+                    <div class="card" style="width: 15rem;">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${error.getErrorHeading()}"></h5>
+                            <h6 class="card-subtitle mb-2 text-muted" th:text="${error.getErrorMessage()}"></h6>
+                        </div>
+                    </div>
+                </div>
+
                 <h2>Upload a file</h2>
                 <div class="col-12">
                     <label for="file">Select media file</label>
