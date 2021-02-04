@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Controller
-public class UploadController {
+public class UploadController<ImageService> {
 
     private AmazonService amazonService;
 
@@ -180,5 +180,5 @@ public class UploadController {
 
         return new RedirectView("/home");
     }
-}
 
+}

@@ -85,11 +85,14 @@ public class PlaylistsController {
     @GetMapping("/delete-playlist-file/{fileId}/{playlistId}")
     public RedirectView deletePlaylistFile(@PathVariable Long fileId,
                                            @PathVariable Long playlistId) {
+
+        //Get playlist
         Playlist playlist = playlistService.get(playlistId);
+        //Get files in playlist
         List<MediaFile> playlistFiles = playlist.getPlaylistFiles();
 
         for (int i = 0; i < playlistFiles.size(); i++) {
-            if (playlistFiles.get(i).getId() == fileId) {
+            if (playlistFiles.get(i).getId().equals(fileId)) {
                 playlistFiles.remove(playlistFiles.get(i));
             }
         }
@@ -112,8 +115,8 @@ public class PlaylistsController {
         String playlistIdString = node.get("playlistId").toString().replaceAll("^\"+|\"+$", "");
         Long playlistId = Long.parseLong(String.valueOf(playlistIdString));
         String playlistName = playlistService.get(playlistId).getplaylistname();
-        playlistService.delete(playlistId);
         Playlist newPlaylist = new Playlist();
+        List<MediaFile> existingMediaFiles = playlistService.get(playlistId).getPlaylistFiles();
 
         // Get list of media files to include in the playlist
         List<String> idList = objectMapper.readValue(fileIds, new TypeReference<List<String>>() {});
@@ -122,11 +125,14 @@ public class PlaylistsController {
         for (String id : idList) {
             Long fileId = Long.parseLong(id);
             MediaFile file = mediaFileService.get(fileId);
-            mediaFileList.add(file);
+            if (!existingMediaFiles.contains(file)) {
+                existingMediaFiles.add(file);
+            }
         }
 
         newPlaylist.setplaylistname(playlistName);
-        newPlaylist.setPlaylistFiles(mediaFileList);
+        newPlaylist.setPlaylistFiles(existingMediaFiles);
+        playlistService.delete(playlistId);
         playlistService.save(newPlaylist);
 
         return new ResponseEntity(HttpStatus.OK);
