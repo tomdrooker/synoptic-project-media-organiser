@@ -158,22 +158,14 @@ public class UploadController<ImageService> {
         }
 
         for (int i = 0; i < categoryListArray.size(); i++) {
-            for (int j = 0; j < fileToChange.getCategories().size(); j++) {
-                if (!categoryListArray.get(i).toString().equals(fileToChange.getCategories().get(j).getCategoryName())) {
-                    Category newCategory = new Category();
-                    newCategory.setCategoryName(categoryListArray.get(i) + " ");
-                    categoryObjectsList.add(newCategory);
-                    newCategory.setMediaFile(fileToChange);
-                    categoriesService.save(newCategory);
-                }
+            if (!fileToChange.getCategories().contains(categoryListArray.get(i))) {
+                Category newCategory = new Category();
+                newCategory.setCategoryName(categoryListArray.get(i) + " ");
+                categoryObjectsList.add(newCategory);
+                newCategory.setMediaFile(fileToChange);
+                categoriesService.save(newCategory);
             }
         }
-
-//        for (int i = 0; i < categoryObjectsList.size(); i++) {
-//            Category singleCategory = categoryObjectsList.get(i);
-//            singleCategory.setMediaFile(fileToChange);
-//            categoriesService.save(singleCategory);
-//        }
 
         fileToChange.setName(filename);
         fileToChange.setComment(comment);
