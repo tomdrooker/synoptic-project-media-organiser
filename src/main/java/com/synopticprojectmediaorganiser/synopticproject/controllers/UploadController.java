@@ -75,7 +75,7 @@ public class UploadController<ImageService> {
 
             for (int i = 0; i < categoryListArray.size(); i++) {
                 Category newCategory = new Category();
-                newCategory.setCategoryName(categoryListArray.get(i));
+                newCategory.setCategoryName(categoryListArray.get(i) + " ");
                 categoryObjectsList.add(newCategory);
             }
 
@@ -147,6 +147,8 @@ public class UploadController<ImageService> {
                                        @RequestParam("image") MultipartFile image) {
 
         MediaFile fileToChange = mediaFileService.get(fileId);
+        List<String> categoryListArray = Arrays.asList(category.split(","));
+        List<Category> categoryObjectsList = new ArrayList<>();
 
         if (image.getOriginalFilename().length() > 0) {
             String imageS3Url = amazonService.uploadFile(image);
@@ -155,26 +157,25 @@ public class UploadController<ImageService> {
             fileToChange.setImage(newImage);
         }
 
-        List<String> categoryListArray = Arrays.asList(category.split(","));
-        List<Category> categoryObjectsList = new ArrayList<>();
-
         for (int i = 0; i < categoryListArray.size(); i++) {
-            Category newCategory = new Category();
-            newCategory.setCategoryName(categoryListArray.get(i));
-            if (fileToChange.getCategories().contains(categoryListArray.get(i))) {
-                categoryObjectsList.add(newCategory);
+            for (int j = 0; j < fileToChange.getCategories().size(); j++) {
+                if (!fileToChange.getCategories().get(j).getCategoryName().equals(categoryListArray.get(i))) {
+                    Category newCategory = new Category();
+                    newCategory.setCategoryName(categoryListArray.get(i) + " ");
+                    categoryObjectsList.add(newCategory);
+                }
             }
         }
-
-        fileToChange.setName(filename);
-        fileToChange.setComment(comment);
-
 
         for (int i = 0; i < categoryObjectsList.size(); i++) {
             Category singleCategory = categoryObjectsList.get(i);
             singleCategory.setMediaFile(fileToChange);
             categoriesService.save(singleCategory);
         }
+
+        fileToChange.setName(filename);
+        fileToChange.setComment(comment);
+        fileToChange.setCategories(categoryObjectsList);
 
         mediaFileService.save(fileToChange);
 
